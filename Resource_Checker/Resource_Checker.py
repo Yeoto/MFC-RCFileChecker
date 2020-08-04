@@ -62,9 +62,11 @@ except:
     realpath = os.path.dirname(os.path.abspath(sys.argv[0]))
 print(realpath)
 
+if os.path.exists('./log') == False:
+    os.mkdir('./log')
+
 logFileName = realpath + '\\log\\'+now_time+'log.log'
-f = open(realpath + '\\Source_Repo.txt', 'r')
-fLog = codecs.open(logFileName, 'a', 'utf-16')
+fLog = codecs.open(logFileName, 'a+', 'utf-16')
 
 # { 'folder' : { 'region(filename)' : { 'dialogname' : { 'control' : 0 } } } }
 Loaded_Datas = { }
@@ -90,6 +92,7 @@ elif len(SysArgv) >= 1:
 
 bCheckAllDlg = False
 if nMode == 1:
+    f = open(realpath + '\\Source_Repo.txt', 'r')
     buildmode_lines = f.readlines()
     for BuildModeLine in buildmode_lines:
         if not BuildModeLine: break
@@ -108,19 +111,19 @@ if nMode == 1:
 
         CheckFileDatas.append(FolderData)
         bCheckAllDlg = True
+    f.close()
 elif nMode == 2:
     nData = 0
 
     FolderData = RCFolderData()
     FolderData.Option.SetOptionForCommit()
-    Loaded_List = [d for d in SysArgv if os.path.isfile(d)]
     File_List = []
     File_List_Sorted = []
-    for file in  Loaded_List:
-        UpperFolder = PathLib.GetUpperDirectoryPath(file)
-        File_List.extend(PathLib.GetRCFileList(UpperFolder))
+
+    File_List.extend(PathLib.GetRCFileList(SysArgv[1]))
     File_List_Sorted = list(set(File_List))
     File_List_Sorted.sort()
+
     for strFilePath in File_List_Sorted:
         FilePath = RCFilePath()
         FilePath.SetRCPath(strFilePath, 0, "")
@@ -426,6 +429,4 @@ if bSendMail == True and Option.bNoEmail == False:
 StrLib.SetDecodingType('utf-8')
 StrLib.print_new(u"Resource Checker Successfully Complete !")
 
-f.close()
 fLog.close()
-

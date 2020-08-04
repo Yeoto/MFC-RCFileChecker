@@ -18,7 +18,7 @@
     <InterpreterArguments>
     </InterpreterArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>AfterCommit "C:\testing\origin\MIDAS_util_us.rc"</CommandLineArguments>
+    <CommandLineArguments>AfterCommit "C:\testing\origin"</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
