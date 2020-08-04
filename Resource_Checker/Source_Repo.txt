@@ -1,0 +1,12 @@
+# Path Option1 Option2 ... 식으로 입력해주세요.
+# Path는 src를 기준으로 잡아주세요. 전체를 잡아도 작동은 되나 속도가 매우 느립니다.
+# Path에는 로컬 주소만 들어갈 수 있습니다. ㅠㅠ
+# -- 현재 작동되는 Option --
+# /NoExcept : 읽기/쓰기관련 Except를 출력하지 않습니다.
+# /NoOverlap : GroupBox, Static에 관련한 중복오류를 출력하지 않습니다.
+# /NoRussia : 러시아 국가 리소스를 제외하고 체크합니다.
+# /NoWarn#if : #if #endif 관련 경고를 출력하지 않습니다.
+# /NoEmail : email 전송을 하지 않습니다.
+# /NoRegionChk : 국가별 대화상자 서로의 검사를 실행하지 않습니다.
+
+C:\MIDAS\GENw\src /NoOverlap /NoRussia /NoWarn#if /NoEmail
