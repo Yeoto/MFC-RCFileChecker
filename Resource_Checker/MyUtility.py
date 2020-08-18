@@ -11,6 +11,7 @@ class OptionData:
         self.bNoWarnIF = False
         self.bNoEmail = False
         self.bNoRagionChk = False
+        self.bExportXML = False
 
     def SetOption(self, data_list):
         if '/NoExcept' in data_list:
@@ -25,6 +26,8 @@ class OptionData:
             self.bNoEmail = True
         if '/NoRegionChk' in data_list:
             self.bNoRagionChk = True
+        if '/ExportXml' in data_list:
+            self.bExportXML = True
 
     def SetOptionForCommit(self):
         self.bNoPirntExcept = False
@@ -33,6 +36,7 @@ class OptionData:
         self.bNoWarnIF = True
         self.bNoEmail = True
         self.bNoRagionChk = True
+        self.bExportXML = False
 
     def SetOptionForDaily(self):
         self.bNoPirntExcept = False
@@ -41,6 +45,7 @@ class OptionData:
         self.bNoWarnIF = True
         self.bNoEmail = False
         self.bNoRagionChk = True
+        self.bExportXML = False
 
 class PathLib:
     def GetUpperDirectoryName(self, str):

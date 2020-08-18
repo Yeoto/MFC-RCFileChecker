@@ -5,7 +5,7 @@ import datetime
 import time
 import re
 from operator import eq
-
+from junit_xml import TestSuite, TestCase
 import emaillib
 import MyUtility
 
@@ -117,6 +117,7 @@ elif nMode == 2:
 
     FolderData = RCFolderData()
     FolderData.Option.SetOptionForCommit()
+    FolderData.Option.SetOption(sys.argv)
     File_List = []
     File_List_Sorted = []
 
@@ -177,17 +178,22 @@ elif nMode == 3:
 #-------------------- 명령인자 처리 --------------------#
 
 #-------------------- 깨짐, 중복 체크 --------------------#
+test_cases = []
 for FolderData in CheckFileDatas:
     Option = FolderData.Option
     FileLib.SetOption(Option)
     FileLib.SetLogger(fLog)
     PathList = FolderData.RCFilePaths
+    bExportXml = Option.bExportXML
+
     for rcfilepath in PathList:
         filename = rcfilepath.FileFullPath
         author = rcfilepath.Author
         rev = rcfilepath.Revision
         bFind = False
         nline = 0
+
+        test_case = TestCase(filename)
 
         #kr, ch, long만 체크할꺼임..
         if filename.find('_ch') > 0:
@@ -196,6 +202,8 @@ for FolderData in CheckFileDatas:
             if Option.bNoRussia == False:
                 decoding_type = 'cp1251'
             else:
+                test_case.add_skipped_info('CAN NOT Encode This File');
+                test_cases.append(test_case)
                 continue
         elif filename.find('_jp') > 0:
             continue
@@ -203,6 +211,8 @@ for FolderData in CheckFileDatas:
             decoding_type = 'euc-kr'
         else:
             decoding_type = 'euc-kr'
+
+        test_case.allow_multiple_subalements = True;
 
         StrLib.SetDecodingType(decoding_type)
         folderName = PathLib.GetUpperDirectoryName(filename)
@@ -308,7 +318,10 @@ for FolderData in CheckFileDatas:
                     if past_Data[0].find('#if') >= 0:
                         if (bool(strDialogIDD) == True) and (bPrintError == True):
                             bPrintError = False
-                            if Option.bNoWarnIF == False : StrLib.print_new("%d : %s, Can't Check Dialog With #if #endif" % (nline-i-1, strDialogIDD))
+                            if Option.bNoWarnIF == False:
+                               str = "%d : %s, Can't Check Dialog With #if #endif" % (nline-i-1, strDialogIDD)
+                               StrLib.print_new(str)
+                               test_case.add_skipped_info(str)
                         bContinue = True
                     elif len(past_Data) >= 6:
                         if past_Data[1].find('DIALOG') >= 0:
@@ -358,10 +371,13 @@ for FolderData in CheckFileDatas:
                     if ValueLib.IsDigit(resource_ID):
                         bFind = True
                         try:
-                            StrLib.print_new('Broken in %s. %d : %s' % (strDialogIDD, nline, rc_line))
+                            str = 'Broken in %s. %d : %s' % (strDialogIDD, nline, rc_line)
+                            StrLib.print_new(str)
+                            test_case.add_error_info(str,None,'BROKEN_IDD')
                         except BaseException:
-                            StrLib.print_new("Broken in %s. %d : Can't Print out Text" % (strDialogIDD, nline))
-
+                            str = "Broken in %s. %d : Can't Print out Text" % (strDialogIDD, nline)
+                            StrLib.print_new(str)
+                            test_case.add_failure_info(str,None,"ENCODE_ERR")
                     else:
                         bPrintOverlap = ValueLib.IsPrintOverlap(rc_datas[0], Option.bNoOverlap)
                         if Option.bNoOverlap==True and resource_ID.find('IDC_STATIC') >= 0:
@@ -370,15 +386,21 @@ for FolderData in CheckFileDatas:
                         if bPrintOverlap and resource_ID in used_rID:
                             bFind = True
                             try:
+                                str = "Overlap in %s. %d : %s" % (strDialogIDD, nline ,rc_line)
                                 StrLib.print_new("Overlap in %s. %d : %s" % (strDialogIDD, nline ,rc_line))
+                                test_case.add_error_info(str,None,'OVERLAP_IDD')
                             except BaseException:
-                                StrLib.print_new("Overlap in %s. %d : Can't Print out Text" % (strDialogIDD, nline))
+                                str = "Overlap in %s. %d : Can't Print out Text" % (strDialogIDD, nline)
+                                StrLib.print_new(str)
+                                test_case.add_failure_info(str,None,"ENCODE_ERR")
                         else:
                             used_rID[resource_ID] = 1;
                 except BaseException:
                     if Option.bNoPirntExcept == False:
                         ttt = ", ".join(rc_datas)
-                        StrLib.print_new('EXCEPTION !! ' + str(nline) + ' : ' + ttt)
+                        str = 'EXCEPTION !! ' + str(nline) + ' : ' + ttt
+                        StrLib.print_new(str)
+                        test_case.add_failure_info(str,None,"EXCEPTION")
             else:
                 bAttach = False
                 prev_needLen = 0
@@ -388,7 +410,10 @@ for FolderData in CheckFileDatas:
             StrLib.print_new('\n\n\n')
             if Option.bNoEmail == False:
                 to_mail.append(author)
+
         rc_file.close()
+        if bExportXml == True:
+            test_cases.append(test_case)
 #-------------------- 깨짐, 중복 체크 --------------------#
 
 #-------------------- 대화상자 별 컨트롤 갯수 체크 --------------------#
@@ -421,6 +446,11 @@ if Option.bNoRagionChk == False:
 #-------------------- 대화상자 별 컨트롤 갯수 체크 --------------------#
 
 fLog.flush()
+
+if len(test_cases) > 0:
+    ts = TestSuite("Resource Checker", test_cases)
+    with open('junit.xml', 'w') as fXml:
+        TestSuite.to_file(fXml, [ts], prettyprint=False)
 
 if bSendMail == True and Option.bNoEmail == False:
     eMailInst = emaillib.emaillib()

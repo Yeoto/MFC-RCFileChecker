@@ -17,8 +17,8 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterArguments>
     </InterpreterArguments>
-    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>AfterCommit "C:\testing\origin"</CommandLineArguments>
+    <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
+    <CommandLineArguments>AfterCommit "C:\testing\origin" /ExportXml</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

@@ -139,3 +139,7 @@ cython_debug/
 
 Resource_Checker/log
 Resource_Checker/log/*.*
+
+.suo
+*.suo
+*.xml
