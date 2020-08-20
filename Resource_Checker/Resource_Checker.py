@@ -60,7 +60,6 @@ try:
     realpath = os.path.dirname(os.path.abspath(__file__))
 except:
     realpath = os.path.dirname(os.path.abspath(sys.argv[0]))
-print(realpath)
 
 if os.path.exists('./log') == False:
     os.mkdir('./log')
@@ -449,7 +448,7 @@ fLog.flush()
 
 if len(test_cases) > 0:
     ts = TestSuite("Resource Checker", test_cases)
-    with open('junit.xml', 'w') as fXml:
+    with open(Option.XmlOutput, 'w') as fXml:
         TestSuite.to_file(fXml, [ts], prettyprint=False)
 
 if bSendMail == True and Option.bNoEmail == False:

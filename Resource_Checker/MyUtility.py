@@ -12,6 +12,7 @@ class OptionData:
         self.bNoEmail = False
         self.bNoRagionChk = False
         self.bExportXML = False
+        self.XmlOutput = "junit.xml"
 
     def SetOption(self, data_list):
         if '/NoExcept' in data_list:
@@ -28,6 +29,12 @@ class OptionData:
             self.bNoRagionChk = True
         if '/ExportXml' in data_list:
             self.bExportXML = True
+        
+        p = re.compile(r"/Output:([\w| |_]*)")
+        newlist = list(filter(p.match, data_list))
+        if len(newlist) >= 1:
+            self.XmlOutput = p.match(newlist[0]).group(1)
+            self.XmlOutput += '.xml'
 
     def SetOptionForCommit(self):
         self.bNoPirntExcept = False
@@ -37,6 +44,7 @@ class OptionData:
         self.bNoEmail = True
         self.bNoRagionChk = True
         self.bExportXML = False
+        self.XmlOutput = "junit.xml"
 
     def SetOptionForDaily(self):
         self.bNoPirntExcept = False
@@ -46,6 +54,7 @@ class OptionData:
         self.bNoEmail = False
         self.bNoRagionChk = True
         self.bExportXML = False
+        self.XmlOutput = "junit.xml"
 
 class PathLib:
     def GetUpperDirectoryName(self, str):

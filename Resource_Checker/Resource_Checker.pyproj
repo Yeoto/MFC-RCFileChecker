@@ -18,7 +18,7 @@
     <InterpreterArguments>
     </InterpreterArguments>
     <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
-    <CommandLineArguments>AfterCommit "C:\testing\origin" /ExportXml</CommandLineArguments>
+    <CommandLineArguments>AfterCommit "C:\testing\origin" /ExportXml "/Outout:NFXD pipeline_Master"</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
