@@ -17,8 +17,8 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterArguments>
     </InterpreterArguments>
-    <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
-    <CommandLineArguments>AfterCommit "C:\testing\origin" /ExportXml "/Outout:NFXD pipeline_Master"</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <CommandLineArguments>AfterCommit "D:\MIDAS\NFXDs\nfxd_trunk\src" /ExportXml /NoOverlap "/Output:NFXD pipeline_Master"</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

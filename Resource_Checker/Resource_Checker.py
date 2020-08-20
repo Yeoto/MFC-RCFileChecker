@@ -33,7 +33,7 @@ resource_data = {'CONTROL'       : 2,
                  'GROUPBOX'      : 2,
                  'COMBOBOX'      : 1,
                  'EDITTEXT'      : 1,
-                 'DEFPUSHBUTTON' : 1,
+                 'DEFPUSHBUTTON' : 2,
                  'LTEXT'         : 2,
                  'RTEXT'         : 2,
                  'LISTBOX'       : 1,
@@ -225,7 +225,11 @@ for FolderData in CheckFileDatas:
         if not FilenameOnly in Loaded_Datas:
             Loaded_Datas[folderName][FilenameOnly] = {}
 
-        StrLib.print_new('Checking File... : %s:%d by %s' % (filename, rev, author))
+        if nMode == 3:
+            StrLib.print_new('Checking File... : %s:%d by %s' % (filename, rev, author))
+        elif nMode == 2:
+            StrLib.print_new('Checking File... : %s' % (filename))
+
         rc_file = codecs.open(filename, 'rb')
 
         rc_file.seek(0)
