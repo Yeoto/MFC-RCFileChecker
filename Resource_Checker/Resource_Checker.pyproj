@@ -18,7 +18,7 @@
     <InterpreterArguments>
     </InterpreterArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>AfterCommit "D:\MIDAS\NFXDs\nfxd_trunk\src" /ExportXml /NoOverlap "/Output:NFXD pipeline_Master"</CommandLineArguments>
+    <CommandLineArguments>AfterCommit "D:\MIDAS\NFXDs\nfxd_trunk\src" /ExportXml /NoOverlap "/Output:NFXD_pipeline_featureFGFNX-226"</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

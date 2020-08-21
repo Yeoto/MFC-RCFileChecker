@@ -30,7 +30,7 @@ class OptionData:
         if '/ExportXml' in data_list:
             self.bExportXML = True
         
-        p = re.compile(r"/Output:([\w| |_]*)")
+        p = re.compile(r"/Output:([\w| |_|-]*)")
         newlist = list(filter(p.match, data_list))
         if len(newlist) >= 1:
             self.XmlOutput = p.match(newlist[0]).group(1)
