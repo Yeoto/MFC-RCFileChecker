@@ -13,12 +13,12 @@
     <Name>Resource_Checker</Name>
     <RootNamespace>Resource_Checker</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
-    <InterpreterId>Global|PythonCore|3.7</InterpreterId>
+    <InterpreterId>Global|PythonCore|3.10</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterArguments>
     </InterpreterArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>AfterCommit "D:\MIDAS\NFXDs\nfxd_trunk\src" /ExportXml /NoOverlap "/Output:NFXD_pipeline_featureFGFNX-226"</CommandLineArguments>
+    <CommandLineArguments>AfterCommit "C:\MIDAS\Source\CivilNS\src" /ExportXml "/Output:junit"</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,7 +38,7 @@
     <Compile Include="Resource_Checker.py" />
   </ItemGroup>
   <ItemGroup>
-    <InterpreterReference Include="Global|PythonCore|3.7" />
+    <InterpreterReference Include="Global|PythonCore|3.10" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

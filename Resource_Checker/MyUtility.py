@@ -2,6 +2,8 @@
 import re
 from operator import eq
 import datetime
+from chardet.universaldetector import UniversalDetector
+
 
 class OptionData:
     def __init__(self):
@@ -187,7 +189,7 @@ class FileLib:
         return lines
 
     def MakeDataForDiffbyFile(self, file1, file2):
-        return MakeDataForDiffbyStr(self, file1.name, ReadLines(file1), file2.name, ReadLines(file2))
+        return self.MakeDataForDiffbyStr(self, file1.name, self.ReadLines(file1), file2.name, self.ReadLines(file2))
 
     def MakeDataForDiffbyStr(self, file1_name, file1_line, file2_name, file2_line):
         dialog_list = []
@@ -258,3 +260,15 @@ class FileLib:
 
         temp_list = [x for x in dialog_list if not dont_CheckDlg.has_key(x)]
         return list(set(temp_list))
+
+def GetEncoding(filepath) -> str:
+    detector = UniversalDetector()
+    detector.reset()
+    with open(filepath, 'rb') as f:
+        lines = f.readlines()
+        for line in lines:
+            detector.feed(line)
+            if detector.done:
+                break
+    detector.close()
+    return detector.result['encoding']
